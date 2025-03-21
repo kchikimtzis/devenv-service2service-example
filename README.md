@@ -33,14 +33,14 @@ curl -X POST http://service-a.dev.platformeng.exus.co.uk/invoke-service-b -H "Co
      -d '{"message": "Hello from service-a"}'
 ```
 
-If you get the following response: `{"data":{"message":"Hello from service-a"},"message":"Processed by service-b"}` this means service b is also running and communication between Dapr services is achieved.
+If you get the following response: `{"data":{"message":"Hello from service-a"},"message":"Processed by service-b"}` this means service B is also running and communication between Dapr services is achieved.
 
 ## Telepresence
 
 1. Make sure you are connected `telepresence connect`
 2. Intercept service A and the Dapr api sidecar port `telepresence intercept service-a --port=5000:5000 --to-pod=3500`. You can add the intercept with the [Telepresence Jetbrains IDE Plugin](https://www.getambassador.io/docs/telepresence/latest/plugins/jetbrains#run-your-application) as well.
 3. Run the python app locally `flask --app ./service-a/app.py --debug run`
-4. You can `curl http://service-a.dev.platformeng.exus.co.uk/` and see the logs on your local flask app and also invoke service b the same way as the previous step
+4. You can `curl http://service-a.dev.platformeng.exus.co.uk/` and see the logs on your local flask app and also invoke service B the same way as the previous step
 5. Do code changes
 
 ## FAQ
