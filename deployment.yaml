@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-a
+  labels:
+    app: service-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-a
+  template:
+    metadata:
+      labels:
+        app: service-a
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "service-a"
+        dapr.io/app-port: "5000"
+        dapr.io/sidecar-listen-addresses: 0.0.0.0
+    spec:
+      containers:
+        - name: service-a
+          image: kchikimtzis/service-a:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-a-service
+  labels:
+    app: service-a-service
+spec:
+  selector:
+    app: service-a
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-b
+  labels:
+    app: service-b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-b
+  template:
+    metadata:
+      labels:
+        app: service-b
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "service-b"
+        dapr.io/app-port: "5001"
+    spec:
+      containers:
+        - name: service-b
+          image: kchikimtzis/service-b:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-b-service
+  labels:
+    app: service-b-service
+spec:
+  selector:
+    app: service-b
+  ports:
+    - port: 5001
+      targetPort: 5001
