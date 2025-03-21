@@ -56,16 +56,15 @@ You can use Dapr locally for service A but the communication with the Dapr of se
 
 ### Can i use the Dapr API by targeting the Dapr service inside the cluster?
 
-When intercepting service-a and define `DAPR_URL = "http://service-a-dapr.default.svc.cluster.local:3500"`
-This won't work as DAPR is a **headless service** 
+When intercepting service A and define `DAPR_URL = "http://service-a-dapr.default.svc.cluster.local:3500"` this won't work as Dapr is a **headless service**
 
 
 #### Solution
 
-1. Your local service-a should send requests to the Dapr sidecar in the cluster.
-2. The Dapr sidecar in service-a will invoke service-b via the Dapr API inside the cluster.
+1. Your local service A should send requests to the Dapr sidecar in the cluster.
+2. The Dapr sidecar in service A will invoke service B via the Dapr API inside the cluster.
 
-Since service-a is running locally, it does not have direct access to the Dapr sidecar running inside the cluster. You need to expose the Dapr API of service-a inside the cluster to your local machine.
+Since service A is running locally, it does not have direct access to the Dapr sidecar running inside the cluster. You need to **expose the Dapr API of service A inside the cluster to your local machine**.
 
 Thats why on the telepresence intercept command we use the `--to-pod=3500` flag so we expose the Dapr API to our local machine.
 
